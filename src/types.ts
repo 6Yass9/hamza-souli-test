@@ -1,7 +1,7 @@
 export interface ServicePackage {
   id: string;
   title: string;
-  price?: string; // optional
+  price?: string;
   description: string;
   features: string[];
 }
@@ -28,19 +28,15 @@ export interface ClientDocument {
   type: 'pdf' | 'image' | 'doc' | 'other';
 }
 
-export type UserRole = 'admin' | 'staff' | 'client';
-export type UserStatus = 'active' | 'archived';
-export type AppointmentStatus = 'pending' | 'confirmed' | 'completed';
-
 export interface User {
   id: string;
   name: string;
   email?: string;
-  role: UserRole;
-  status?: UserStatus;
+  role: 'admin' | 'staff' | 'client';
+  status?: 'active' | 'archived';
   phone?: string;
-  loginCode?: string; // 6-digit access code for clients
-  documents?: ClientDocument[]; // loaded separately
+  loginCode?: string;
+  documents?: ClientDocument[];
 }
 
 export interface Appointment {
@@ -48,11 +44,11 @@ export interface Appointment {
   date: string; // YYYY-MM-DD
   time: string;
   clientName: string;
-  status: AppointmentStatus;
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
   type: string;
 
-  // ✅ NEW: assignment for Staff dashboard filtering
-  staffId?: string; // maps to appointments.staff_id in Supabase
+  // ✅ assigned staff member (maps to appointments.user_id)
+  staffId?: string;
 }
 
 export interface Album {
@@ -60,7 +56,7 @@ export interface Album {
   title: string;
   coverUrl: string;
   createdAt: string;
-  clientId?: string; // client this album belongs to (if private)
+  clientId?: string;
 }
 
 export interface GalleryItem {
