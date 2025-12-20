@@ -2,9 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { User, Appointment } from '../types';
 import { api } from '../services/api';
 import { Calendar as CalendarIcon, LogOut, Clock, MapPin, ExternalLink, CalendarDays } from 'lucide-react';
-
-// ✅ FIXED PATH: calendar lives in src/components/calendar.tsx
-import { Calendar } from './calendar';
+import { Calendar } from './Calendar';
 
 interface StaffDashboardProps {
   user: User;
@@ -17,7 +15,7 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ user, onLogout }
 
   useEffect(() => {
     const fetchAssigned = async () => {
-      // ✅ Better: fetch only assigned to this staff (no client/admin appointments)
+      // Uses the API helper that already filters by user_id
       const assigned = await api.getStaffAppointments(user.id);
       setAppointments(assigned);
     };
@@ -39,6 +37,7 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ user, onLogout }
             Staff Portal
           </span>
         </div>
+
         <div className="flex items-center gap-6">
           <span className="text-sm font-medium text-stone-600 dark:text-stone-300 hidden md:inline">
             Logged in as {user.name}
@@ -98,7 +97,7 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ user, onLogout }
                             </h3>
                           </div>
                           <div className="flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400">
-                            <Clock size={14} /> {app.time}
+                            <Clock size={14} /> {app.time || '--:--'}
                           </div>
                         </div>
 
@@ -107,6 +106,7 @@ export const StaffDashboard: React.FC<StaffDashboardProps> = ({ user, onLogout }
                             <MapPin size={16} className="text-stone-400" />
                             <span>Location details in Admin notes</span>
                           </div>
+
                           <button className="md:ml-auto flex items-center gap-2 text-stone-800 dark:text-stone-200 font-bold hover:underline">
                             View Client File <ExternalLink size={14} />
                           </button>
