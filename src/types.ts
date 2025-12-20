@@ -1,7 +1,7 @@
 export interface ServicePackage {
   id: string;
   title: string;
-  price?: string;
+  price?: string; // optional
   description: string;
   features: string[];
 }
@@ -35,20 +35,25 @@ export interface User {
   role: 'admin' | 'staff' | 'client';
   status?: 'active' | 'archived';
   phone?: string;
-  loginCode?: string;
-  documents?: ClientDocument[];
+  loginCode?: string; // 6-digit access code for clients
+  documents?: ClientDocument[]; // loaded separately
 }
 
 export interface Appointment {
   id: string;
+
+  // Your DB schema: appointments.user_id references users(id)
+  // We use this in UI as "assigned staff"
+  staffId?: string | null;
+
+  // basic fields
   date: string; // YYYY-MM-DD
-  time: string;
+  time?: string | null;
   clientName: string;
+  email?: string;
+
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
   type: string;
-
-  // ✅ assigned staff member (maps to appointments.user_id)
-  staffId?: string;
 }
 
 export interface Album {
@@ -56,7 +61,7 @@ export interface Album {
   title: string;
   coverUrl: string;
   createdAt: string;
-  clientId?: string;
+  clientId?: string; // if private
 }
 
 export interface GalleryItem {
