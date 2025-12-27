@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 export const Contact: React.FC = () => {
   const { t } = useTranslation();
 
-  const [activeTab, setActiveTab] = useState<'message' | 'book'>('message');
+  // 🔽 DEFAULT TAB IS NOW "BOOK"
+  const [activeTab, setActiveTab] = useState<'message' | 'book'>('book');
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [bookingName, setBookingName] = useState('');
   const [bookingEmail, setBookingEmail] = useState('');
@@ -40,100 +41,56 @@ export const Contact: React.FC = () => {
 
         <div className="w-full md:w-2/3 p-8 md:p-12">
           <div className="flex border-b border-stone-200 mb-8">
-            <button
-              onClick={() => setActiveTab('message')}
-              className={`pb-4 px-4 text-sm uppercase tracking-widest transition-all ${
-                activeTab === 'message' ? 'border-b-2 border-stone-800 text-stone-900' : 'text-stone-400 hover:text-stone-600'
-              }`}
-            >
-              {t('contact.tabs.message')}
-            </button>
+            {/* 🔽 BOOK CONSULTATION FIRST */}
             <button
               onClick={() => setActiveTab('book')}
               className={`pb-4 px-4 text-sm uppercase tracking-widest transition-all ${
-                activeTab === 'book' ? 'border-b-2 border-stone-800 text-stone-900' : 'text-stone-400 hover:text-stone-600'
+                activeTab === 'book'
+                  ? 'border-b-2 border-stone-800 text-stone-900'
+                  : 'text-stone-400 hover:text-stone-600'
               }`}
             >
               {t('contact.tabs.book')}
             </button>
+
+            <button
+              onClick={() => setActiveTab('message')}
+              className={`pb-4 px-4 text-sm uppercase tracking-widest transition-all ${
+                activeTab === 'message'
+                  ? 'border-b-2 border-stone-800 text-stone-900'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              {t('contact.tabs.message')}
+            </button>
           </div>
 
-          {activeTab === 'message' ? (
-            <div className="fade-enter-active">
-              <div className="mb-8">
-                <h3 className="font-serif text-3xl text-stone-900 mb-2">{t('contact.message.title')}</h3>
-              </div>
-
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1">
-                    <label className="text-xs uppercase tracking-wide text-stone-500">{t('contact.message.name')}</label>
-                    <input
-                      type="text"
-                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent"
-                      placeholder={t('contact.message.placeholders.name')}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs uppercase tracking-wide text-stone-500">{t('contact.message.email')}</label>
-                    <input
-                      type="email"
-                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent"
-                      placeholder={t('contact.message.placeholders.email')}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1">
-                    <label className="text-xs uppercase tracking-wide text-stone-500">{t('contact.message.eventDate')}</label>
-                    <input
-                      type="date"
-                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent text-stone-600"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs uppercase tracking-wide text-stone-500">{t('contact.message.venue')}</label>
-                    <input
-                      type="text"
-                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent"
-                      placeholder={t('contact.message.placeholders.venue')}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs uppercase tracking-wide text-stone-500">{t('contact.message.story')}</label>
-                  <textarea
-                    rows={4}
-                    className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent resize-none"
-                    placeholder={t('contact.message.placeholders.story')}
-                  />
-                </div>
-
-                <div className="pt-4">
-                  <button className="bg-stone-900 text-white px-8 py-3 uppercase tracking-widest text-xs hover:bg-stone-700 transition-colors w-full md:w-auto">
-                    {t('contact.message.cta')}
-                  </button>
-                </div>
-              </form>
-            </div>
-          ) : (
+          {activeTab === 'book' ? (
             <div className="fade-enter-active flex flex-col md:flex-row gap-8">
               <div className="flex-1">
                 <div className="mb-6">
-                  <h3 className="font-serif text-3xl text-stone-900 mb-2">{t('contact.booking.title')}</h3>
-                  <p className="text-stone-500 font-light text-sm">{t('contact.booking.subtitle')}</p>
+                  <h3 className="font-serif text-3xl text-stone-900 mb-2">
+                    {t('contact.booking.title')}
+                  </h3>
+                  <p className="text-stone-500 font-light text-sm">
+                    {t('contact.booking.subtitle')}
+                  </p>
                 </div>
                 <Calendar onDateSelect={setSelectedDate} />
               </div>
 
               <div className="flex-1 flex flex-col justify-center">
                 {selectedDate ? (
-                  <form onSubmit={handleBookingSubmit} className="bg-stone-50 p-6 rounded border border-stone-200">
-                    <h4 className="font-serif text-xl mb-4 text-stone-800">{t('contact.booking.confirmTitle')}</h4>
+                  <form
+                    onSubmit={handleBookingSubmit}
+                    className="bg-stone-50 p-6 rounded border border-stone-200"
+                  >
+                    <h4 className="font-serif text-xl mb-4 text-stone-800">
+                      {t('contact.booking.confirmTitle')}
+                    </h4>
                     <p className="text-sm text-stone-600 mb-4">
-                      {t('contact.booking.dateLabel')}: <span className="font-bold">{selectedDate}</span>
+                      {t('contact.booking.dateLabel')}:{' '}
+                      <span className="font-bold">{selectedDate}</span>
                     </p>
 
                     <div className="space-y-4">
@@ -157,7 +114,10 @@ export const Contact: React.FC = () => {
                           placeholder={t('contact.booking.yourEmail')}
                         />
                       </div>
-                      <button type="submit" className="w-full bg-stone-800 text-white py-2 text-sm uppercase tracking-wider hover:bg-stone-700">
+                      <button
+                        type="submit"
+                        className="w-full bg-stone-800 text-white py-2 text-sm uppercase tracking-wider hover:bg-stone-700"
+                      >
                         {t('contact.booking.cta')}
                       </button>
                     </div>
@@ -168,6 +128,78 @@ export const Contact: React.FC = () => {
                   </div>
                 )}
               </div>
+            </div>
+          ) : (
+            <div className="fade-enter-active">
+              <div className="mb-8">
+                <h3 className="font-serif text-3xl text-stone-900 mb-2">
+                  {t('contact.message.title')}
+                </h3>
+              </div>
+
+              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wide text-stone-500">
+                      {t('contact.message.name')}
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent"
+                      placeholder={t('contact.message.placeholders.name')}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wide text-stone-500">
+                      {t('contact.message.email')}
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent"
+                      placeholder={t('contact.message.placeholders.email')}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wide text-stone-500">
+                      {t('contact.message.eventDate')}
+                    </label>
+                    <input
+                      type="date"
+                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent text-stone-600"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs uppercase tracking-wide text-stone-500">
+                      {t('contact.message.venue')}
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent"
+                      placeholder={t('contact.message.placeholders.venue')}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs uppercase tracking-wide text-stone-500">
+                    {t('contact.message.story')}
+                  </label>
+                  <textarea
+                    rows={4}
+                    className="w-full border-b border-stone-300 py-2 focus:outline-none focus:border-stone-800 transition-colors bg-transparent resize-none"
+                    placeholder={t('contact.message.placeholders.story')}
+                  />
+                </div>
+
+                <div className="pt-4">
+                  <button className="bg-stone-900 text-white px-8 py-3 uppercase tracking-widest text-xs hover:bg-stone-700 transition-colors w-full md:w-auto">
+                    {t('contact.message.cta')}
+                  </button>
+                </div>
+              </form>
             </div>
           )}
         </div>
