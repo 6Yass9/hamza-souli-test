@@ -311,12 +311,12 @@ export const api = {
       .map((a: any) => a.date);
   },
 
-  createAppointment: async (date: string, name: string, email: string) => {
+  createAppointment: async (date: string, name: string, phone: string) => {
     const payload = {
       date,
       time: '10:00',
       client_name: name,
-      email,
+      phone,
       status: 'pending',
       type: 'Consultation Request'
     };
