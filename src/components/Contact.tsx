@@ -11,6 +11,7 @@ export const Contact: React.FC = () => {
   const [bookingName, setBookingName] = useState('');
   const [bookingPhone, setBookingPhone] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const isValidPhone = (phone: string) => {
     const cleaned = phone.replace(/\s/g, '');
@@ -32,7 +33,24 @@ export const Contact: React.FC = () => {
     }
 
     try {
+      setLoading(true);
+
+      // 1️⃣ Create appointment
       await api.createAppointment(selectedDate, bookingName, bookingPhone);
+
+      // 2️⃣ Notify admin (non-blocking)
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: selectedDate,
+          name: bookingName,
+          phone: bookingPhone
+        })
+      }).catch((err) => {
+        console.error('Notification failed', err);
+      });
+
       alert(t('contact.booking.success'));
       setBookingName('');
       setBookingPhone('');
@@ -40,6 +58,8 @@ export const Contact: React.FC = () => {
     } catch (err) {
       console.error(err);
       setError(t('contact.booking.errors.generic'));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,7 +131,7 @@ export const Contact: React.FC = () => {
                     </h4>
 
                     <p className="text-sm text-stone-600 mb-4">
-                      {t('contact.booking.dateLabel')}:{' '}
+                      {t('contact.booking.dateLabel')}{' '}
                       <span className="font-bold">{selectedDate}</span>
                     </p>
 
@@ -140,9 +160,10 @@ export const Contact: React.FC = () => {
 
                       <button
                         type="submit"
-                        className="w-full bg-stone-800 text-white py-2 text-sm uppercase tracking-wider hover:bg-stone-700"
+                        disabled={loading}
+                        className="w-full bg-stone-800 text-white py-2 text-sm uppercase tracking-wider hover:bg-stone-700 disabled:opacity-50"
                       >
-                        {t('contact.booking.cta')}
+                        {loading ? '...' : t('contact.booking.cta')}
                       </button>
                     </div>
                   </form>
