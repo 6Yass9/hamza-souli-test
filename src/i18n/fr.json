@@ -88,43 +88,45 @@
       "confirmTitle": "Confirmer la réservation",
       "dateLabel": "Date",
       "yourName": "Votre nom",
-      "yourEmail": "Votre email",
+      "yourPhone": "Numéro de téléphone",
       "cta": "Confirmer la demande",
       "empty": "Sélectionnez une date sur le calendrier pour continuer.",
-      "success": "Demande de consultation envoyée !"
+      "success": "Demande de consultation envoyée !",
+      "errors": {
+        "required": "Veuillez remplir tous les champs.",
+        "invalidPhone": "Numéro de téléphone invalide.",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      }
     }
   },
   "login": {
-  "brand": "HAMZA SOULI",
-  "unified": {
-    "subtitle": "Accès sécurisé",
-    "identifierLabel": "Identifiez-vous",
-    "identifierPlaceholder": "Email ou code à 6 chiffres",
-    "invalidIdentifier": "Veuillez entrer un email valide ou un code à 6 chiffres.",
-    "failed": "Échec de la connexion. Veuillez réessayer.",
-    "cta": "Continuer",
-    "hint": "Entrez votre email professionnel ou votre code client.",
-    "help": {
-      "clients": "Clients : entrez votre code d’accès à 6 chiffres.",
-      "staff": "Équipe & Admin : utilisez votre email et mot de passe."
+    "brand": "HAMZA SOULI",
+    "unified": {
+      "subtitle": "Accès sécurisé",
+      "identifierLabel": "Identifiez-vous",
+      "identifierPlaceholder": "Email ou code à 6 chiffres",
+      "invalidIdentifier": "Veuillez entrer un email valide ou un code à 6 chiffres.",
+      "failed": "Échec de la connexion. Veuillez réessayer.",
+      "cta": "Continuer",
+      "hint": "Entrez votre email professionnel ou votre code client.",
+      "help": {
+        "clients": "Clients : entrez votre code d’accès à 6 chiffres.",
+        "staff": "Équipe & Admin : utilisez votre email et mot de passe."
+      }
+    },
+    "client": {
+      "error": "Code d’accès invalide. Veuillez vérifier votre invitation."
+    },
+    "admin": {
+      "password": "Mot de passe",
+      "error": "Identifiants incorrects."
+    },
+    "close": "Fermer",
+    "demo": {
+      "admin": "Admin démo : {{email}} (mot de passe)",
+      "client": "Code client démo : {{code}}"
     }
   },
-  "client": {
-    "error": "Code d’accès invalide. Veuillez vérifier votre invitation."
-  },
-  "admin": {
-    "password": "Mot de passe",
-    "error": "Identifiants incorrects."
-  },
-  "close": "Fermer",
-  "demo": {
-    "admin": "Admin démo : {{email}} (mot de passe)",
-    "client": "Code client démo : {{code}}"
-  }
-},
-
-
-
   "footer": {
     "brand": "Hamza Souli",
     "tagline": "Capturer la lumière, l’amour et les moments.",
@@ -274,5 +276,3 @@
     }
   }
 }
-
-
