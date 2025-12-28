@@ -312,20 +312,32 @@ export const api = {
   },
 
   createAppointment: async (date: string, name: string, phone: string) => {
-    const payload = {
-      date,
-      time: '10:00',
-      client_name: name,
-      phone,
-      status: 'pending',
-      type: 'Consultation Request'
-    };
+  if (!date || !name || !phone) {
+    throw new Error('Missing required fields');
+  }
 
-    const { error } = await supabase.from('appointments').insert(payload);
-    if (error) generateError('Failed to create appointment', error);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-    return { success: true };
-  },
+  if (new Date(date) < today) {
+    throw new Error('Cannot book in the past');
+  }
+
+  const payload = {
+    date,
+    time: '10:00',
+    client_name: name.trim(),
+    phone: phone.trim(),
+    status: 'pending',
+    type: 'Consultation Request'
+  };
+
+  const { error } = await supabase.from('appointments').insert(payload);
+  if (error) generateError('Failed to create appointment', error);
+
+  return { success: true };
+},
+
 
   updateAppointment: async (id: string, updates: Partial<Appointment>): Promise<Appointment | null> => {
     const payload: any = {};
