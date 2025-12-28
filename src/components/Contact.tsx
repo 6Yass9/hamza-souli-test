@@ -13,7 +13,6 @@ export const Contact: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const isValidPhone = (phone: string) => {
-    // Simple validation: digits, spaces, + allowed, min length
     const cleaned = phone.replace(/\s/g, '');
     return /^(\+?\d{8,15})$/.test(cleaned);
   };
@@ -32,12 +31,16 @@ export const Contact: React.FC = () => {
       return;
     }
 
-    await api.createAppointment(selectedDate, bookingName, bookingPhone);
-
-    alert(t('contact.booking.success'));
-    setBookingName('');
-    setBookingPhone('');
-    setSelectedDate(null);
+    try {
+      await api.createAppointment(selectedDate, bookingName, bookingPhone);
+      alert(t('contact.booking.success'));
+      setBookingName('');
+      setBookingPhone('');
+      setSelectedDate(null);
+    } catch (err) {
+      console.error(err);
+      setError(t('contact.booking.errors.generic'));
+    }
   };
 
   return (
@@ -108,7 +111,7 @@ export const Contact: React.FC = () => {
                     </h4>
 
                     <p className="text-sm text-stone-600 mb-4">
-                      {t('contact.booking.dateLabel')}{' '}
+                      {t('contact.booking.dateLabel')}:{' '}
                       <span className="font-bold">{selectedDate}</span>
                     </p>
 
@@ -128,7 +131,7 @@ export const Contact: React.FC = () => {
                         value={bookingPhone}
                         onChange={(e) => setBookingPhone(e.target.value)}
                         className="w-full p-2 border border-stone-300 rounded text-sm bg-white"
-                        placeholder="+216 XX XXX XXX"
+                        placeholder={t('contact.booking.yourPhone')}
                       />
 
                       {error && (
@@ -151,7 +154,6 @@ export const Contact: React.FC = () => {
               </div>
             </div>
           ) : (
-            /* MESSAGE TAB UNCHANGED */
             <div className="fade-enter-active">
               <div className="mb-8">
                 <h3 className="font-serif text-3xl text-stone-900 mb-2">
@@ -160,7 +162,7 @@ export const Contact: React.FC = () => {
               </div>
 
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                {/* unchanged inquiry form */}
+                {/* inquiry form unchanged */}
               </form>
             </div>
           )}
